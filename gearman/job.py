@@ -1,4 +1,4 @@
-import collections
+from collections import deque
 from gearman.constants import PRIORITY_NONE, JOB_UNKNOWN, JOB_PENDING, JOB_CREATED, JOB_FAILED, JOB_COMPLETE
 
 class GearmanJob(object):
@@ -38,9 +38,9 @@ class GearmanJobRequest(object):
         self.exception = None
 
         # Queues to hold WORK_WARNING, WORK_DATA, WORK_STATUS responses
-        self.warning_updates = collections.deque()
-        self.data_updates = collections.deque()
-        self.status_updates = collections.deque()
+        self.warning_updates = deque()
+        self.data_updates = deque()
+        self.status_updates = deque()
 
         # Holds STATUS_REQ responses
         self.server_status = {}

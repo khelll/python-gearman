@@ -2,6 +2,7 @@ import logging
 import select as select_lib
 
 import gearman.util
+from gearman.util import any,all
 from gearman.connection import GearmanConnection
 from gearman.constants import _DEBUG_MODE_
 from gearman.errors import ConnectionError, ServerUnavailable

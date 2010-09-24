@@ -1,7 +1,7 @@
 import struct
 from gearman.constants import PRIORITY_NONE, PRIORITY_LOW, PRIORITY_HIGH
 from gearman.errors import ProtocolError
-
+from gearman.util import any,all
 # Protocol specific constants
 NULL_CHAR = '\x00'
 MAGIC_RES_STRING = '%sRES' % NULL_CHAR

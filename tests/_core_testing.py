@@ -1,4 +1,4 @@
-import collections
+from collections import deque
 import random
 import unittest
 
@@ -100,7 +100,7 @@ class _GearmanAbstractTest(unittest.TestCase):
         self.assertEqual(client_cmd_args, expected_cmd_args)
 
     def assert_no_pending_commands(self):
-        self.assertEqual(self.connection._outgoing_commands, collections.deque())
+        self.assertEqual(self.connection._outgoing_commands, deque())
 
     def assert_commands_equal(self, cmd_type_actual, cmd_type_expected):
         self.assertEqual(get_command_name(cmd_type_actual), get_command_name(cmd_type_expected))

@@ -1,9 +1,12 @@
-import collections
+from collections import deque
+try: from collections import defaultdict
+except: from gearman.util import defaultdict
 import logging
 import os
 import random
 
 import gearman.util
+from gearman.util import any,all
 
 from gearman.connection_manager import GearmanConnectionManager
 from gearman.client_handler import GearmanClientCommandHandler
@@ -29,7 +32,7 @@ class GearmanClient(GearmanConnectionManager):
 
         # The authoritative copy of all requests that this client knows about
         # Ignores the fact if a request has been bound to a connection or not
-        self.request_to_rotating_connection_queue = collections.defaultdict(collections.deque)
+        self.request_to_rotating_connection_queue = defaultdict(deque)
 
     def submit_job(self, task, data, unique=None, priority=PRIORITY_NONE, background=False, wait_until_complete=True, max_retries=0, poll_timeout=None):
         """Submit a single job to any gearman server"""
@@ -187,7 +190,7 @@ class GearmanClient(GearmanConnectionManager):
             shuffled_connection_list = list(self.connection_list)
             random.shuffle(shuffled_connection_list)
 
-            rotating_connections = collections.deque(shuffled_connection_list)
+            rotating_connections = deque(shuffled_connection_list)
             self.request_to_rotating_connection_queue[current_request] = rotating_connections
 
         failed_connections = 0

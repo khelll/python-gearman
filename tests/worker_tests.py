@@ -1,4 +1,6 @@
-import collections
+from collections import deque
+try: from collections import defaultdict
+except ImportError: from gearman.util import defaultdict
 import unittest
 
 from gearman.worker import GearmanWorker
@@ -14,7 +16,7 @@ from tests._core_testing import _GearmanAbstractTest, MockGearmanConnectionManag
 class MockGearmanWorker(MockGearmanConnectionManager, GearmanWorker):
     def __init__(self, *largs, **kwargs):
         super(MockGearmanWorker, self).__init__(*largs, **kwargs)
-        self.worker_job_queues = collections.defaultdict(collections.deque)
+        self.worker_job_queues = defaultdict(deque)
 
     def on_job_execute(self, current_job):
         current_handler = self.connection_to_handler_map[current_job.connection]
