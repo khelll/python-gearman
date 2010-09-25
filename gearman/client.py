@@ -13,13 +13,12 @@ from gearman.errors import ConnectionError, ExceededConnectionAttempts, ServerUn
 
 gearman_logger = logging.getLogger(__name__)
 
+# This number must be <= GEARMAN_UNIQUE_SIZE in gearman/libgearman/constants.h 
 RANDOM_UNIQUE_BYTES = 16
 
 class GearmanClient(GearmanConnectionManager):
     """
     GearmanClient :: Interface to submit jobs to a Gearman server
-
-    Submits a single/multiple jobs to a gearman server
     """
     command_handler_class = GearmanClientCommandHandler
 
@@ -176,6 +175,7 @@ class GearmanClient(GearmanConnectionManager):
         current_job = self.job_class(connection=None, handle=None, task=job_info['task'], unique=job_unique, data=job_info['data'])
 
         initial_priority = job_info.get('priority', PRIORITY_NONE)
+
         max_attempts = max_retries + 1
         current_request = self.job_request_class(current_job, initial_priority=initial_priority, background=background, max_attempts=max_attempts)
         return current_request
@@ -187,7 +187,6 @@ class GearmanClient(GearmanConnectionManager):
         if not rotating_connections:
             shuffled_connection_list = list(self.connection_list)
             random.shuffle(shuffled_connection_list)
-
             rotating_connections = collections.deque(shuffled_connection_list)
             self.request_to_rotating_connection_queue[current_request] = rotating_connections
 

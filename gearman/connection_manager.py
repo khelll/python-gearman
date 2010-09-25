@@ -195,9 +195,8 @@ class GearmanConnectionManager(object):
 
             any_activity = compat.any([read_connections, write_connections, dead_connections])
             connection_ok = compat.any(current_connection.connected for current_connection in submitted_connections)
-            callback_ok = callback_fxn(any_activity)
 
-        # We should raise here if we have no alive connections (don't go into a select polling loop with no connections
+        # We should raise here if we have no alive connections (don't go into a select polling loop with no connections)
         if not connection_ok:
             raise ServerUnavailable('Found no valid connections in list: %r' % self.connection_list)
 
