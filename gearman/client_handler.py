@@ -1,4 +1,4 @@
-from collections import deque
+import collections
 import time
 import logging
 
@@ -15,7 +15,7 @@ class GearmanClientCommandHandler(GearmanCommandHandler):
         super(GearmanClientCommandHandler, self).__init__(connection_manager=connection_manager)
 
         # When we first submit jobs, we don't have a handle assigned yet... these handles will be returned in the order of submission
-        self.requests_awaiting_handles = deque()
+        self.requests_awaiting_handles = collections.deque()
         self.handle_to_request_map = dict()
 
     ##################################################################

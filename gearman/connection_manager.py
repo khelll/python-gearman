@@ -2,11 +2,11 @@ import logging
 import select as select_lib
 
 import gearman.util
-from gearman.util import any,all
 from gearman.connection import GearmanConnection
 from gearman.constants import _DEBUG_MODE_
 from gearman.errors import ConnectionError, ServerUnavailable
 from gearman.job import GearmanJob, GearmanJobRequest
+from gearman import compat
 
 gearman_logger = logging.getLogger(__name__)
 
@@ -182,7 +182,7 @@ class GearmanConnectionManager(object):
 
         any_activity = False
         callback_ok = callback_fxn(any_activity)
-        connection_ok = any(current_connection.connected for current_connection in submitted_connections)
+        connection_ok = compat.any(current_connection.connected for current_connection in submitted_connections)
 
         while connection_ok and callback_ok:
             time_remaining = stopwatch.get_time_remaining()
@@ -193,8 +193,8 @@ class GearmanConnectionManager(object):
             read_connections, write_connections, dead_connections = self.poll_connections_once(submitted_connections, timeout=time_remaining)
             self.handle_connection_activity(read_connections, write_connections, dead_connections)
 
-            any_activity = any([read_connections, write_connections, dead_connections])
-            connection_ok = any(current_connection.connected for current_connection in submitted_connections)
+            any_activity = compat.any([read_connections, write_connections, dead_connections])
+            connection_ok = compat.any(current_connection.connected for current_connection in submitted_connections)
             callback_ok = callback_fxn(any_activity)
 
         # We should raise here if we have no alive connections (don't go into a select polling loop with no connections

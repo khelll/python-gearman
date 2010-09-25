@@ -1,4 +1,4 @@
-from collections import deque
+import collections
 import logging
 import socket
 import struct
@@ -50,8 +50,8 @@ class GearmanConnection(object):
         self._outgoing_buffer = ''
 
         # Toss all commands we may have sent or received
-        self._incoming_commands = deque()
-        self._outgoing_commands = deque()
+        self._incoming_commands = collections.deque()
+        self._outgoing_commands = collections.deque()
 
     def fileno(self):
         """Implements fileno() for use with select.select()"""

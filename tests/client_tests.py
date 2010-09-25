@@ -1,4 +1,4 @@
-from collections import deque
+import collections
 import random
 import unittest
 
@@ -330,7 +330,7 @@ class ClientCommandHandlerStateMachineTest(_GearmanAbstractTest):
         self.assertEqual(self.command_handler.handle_to_request_map[new_handle], current_request)
 
     def test_received_job_created_out_of_order(self):
-        self.assertEqual(self.command_handler.requests_awaiting_handles, deque())
+        self.assertEqual(self.command_handler.requests_awaiting_handles, collections.deque())
 
         # Make sure we bail cuz we have an empty queue
         self.assertRaises(InvalidClientState, self.command_handler.recv_command, GEARMAN_COMMAND_JOB_CREATED, job_handle=None)
