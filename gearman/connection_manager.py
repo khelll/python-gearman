@@ -1,6 +1,6 @@
 import logging
 import select as select_lib
-
+import gearman.compat
 import gearman.util
 from gearman.connection import GearmanConnection
 from gearman.constants import _DEBUG_MODE_
@@ -194,6 +194,7 @@ class GearmanConnectionManager(object):
             self.handle_connection_activity(read_connections, write_connections, dead_connections)
 
             any_activity = compat.any([read_connections, write_connections, dead_connections])
+            callback_ok = callback_fxn(any_activity)
             connection_ok = compat.any(current_connection.connected for current_connection in submitted_connections)
 
         # We should raise here if we have no alive connections (don't go into a select polling loop with no connections)
