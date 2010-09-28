@@ -1,6 +1,6 @@
 import logging
 import select as select_lib
-import gearman.compat
+
 import gearman.util
 from gearman.connection import GearmanConnection
 from gearman.constants import _DEBUG_MODE_
