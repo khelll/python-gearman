@@ -26,6 +26,8 @@ except NameError:
                 return False
         return True
 
+# Required for python2.4 backward compatibilty
+# Add a class called "defaultdict" which is equivalent to "collections.defaultdict"
 try:
     from collections import defaultdict
 except ImportError:
